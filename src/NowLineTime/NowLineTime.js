@@ -8,26 +8,10 @@ import Animated, {
 import PropTypes from 'prop-types';
 
 import moment from 'moment';
-import { minutesInDay } from '../utils/dates';
+import { useMinutesNow } from '../utils/misc';
 import { minutesInDayToTop } from '../utils/dimensions';
 import styles from './NowLineTime.styles';
 import { useVerticalDimensionContext } from '../utils/VerticalDimContext';
-
-const UPDATE_EVERY_MILLISECONDS = 60 * 1000; // 1 minute
-
-const useMinutesNow = (updateEvery = UPDATE_EVERY_MILLISECONDS) => {
-  const [now, setNow] = useState(new Date());
-  useEffect(() => {
-    const intervalCallbackId = setInterval(
-      () => setNow(new Date()),
-      updateEvery,
-    );
-
-    return () => intervalCallbackId && clearInterval(intervalCallbackId);
-  }, [setNow, updateEvery]);
-
-  return minutesInDay(now);
-};
 
 const NowLineTime = ({
   beginAgendaAt,
