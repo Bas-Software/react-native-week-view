@@ -28,7 +28,7 @@ const useMinutesNow = (updateEvery = UPDATE_EVERY_MILLISECONDS) => {
   return minutesInDay(now);
 };
 
-const NowLine = ({ beginAgendaAt, color, width }) => {
+const NowLine = ({ beginAgendaAt, color, width, nowLineStyle, nowCircleStyle }) => {
   const { verticalResolution } = useVerticalDimensionContext();
   const minutesNow = useMinutesNow();
 
@@ -49,6 +49,7 @@ const NowLine = ({ beginAgendaAt, color, width }) => {
           width,
         },
         animatedStyle,
+          nowLineStyle
       ]}
     >
       <View
@@ -57,6 +58,7 @@ const NowLine = ({ beginAgendaAt, color, width }) => {
           {
             backgroundColor: color,
           },
+            nowCircleStyle
         ]}
       />
     </Animated.View>
@@ -67,6 +69,8 @@ NowLine.propTypes = {
   width: PropTypes.number.isRequired,
   beginAgendaAt: PropTypes.number,
   color: PropTypes.string,
+  nowLineStyle: PropTypes.object,
+  nowCircleStyle: PropTypes.object,
 };
 
 NowLine.defaultProps = {
