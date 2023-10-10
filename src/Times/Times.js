@@ -11,7 +11,7 @@ import NowLineTime from "../NowLineTime/NowLineTime";
 
 const Times = ({ times, containerStyle, textStyle, hourLabelContainerStyle, width, showNowTime, nowLineColor,
                  beginAgendaAt,
-                 nowLineStyle }) => {
+                 nowLineStyle,formatTimeLabel }) => {
   const { timeLabelHeight } = useVerticalDimensionContext();
   const lineStyle = useAnimatedStyle(() => ({
     height: withTiming(timeLabelHeight.value),
@@ -25,6 +25,7 @@ const Times = ({ times, containerStyle, textStyle, hourLabelContainerStyle, widt
               width={width}
               beginAgendaAt={beginAgendaAt}
               nowLineStyle={nowLineStyle}
+              formatTimeLabel={formatTimeLabel}
           />
       )}
       {times.map((time) => (
