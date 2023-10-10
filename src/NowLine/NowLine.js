@@ -7,6 +7,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import PropTypes from 'prop-types';
 
+import moment from 'moment';
 import { minutesInDay } from '../utils/dates';
 import { minutesInDayToTop } from '../utils/dimensions';
 import styles from './NowLine.styles';
@@ -17,12 +18,19 @@ const UPDATE_EVERY_MILLISECONDS = 60 * 1000; // 1 minute
 const useMinutesNow = (updateEvery = UPDATE_EVERY_MILLISECONDS) => {
   const [now, setNow] = useState(new Date());
   useEffect(() => {
-    const intervalCallbackId = setInterval(
-      () => setNow(new Date()),
-      updateEvery,
-    );
+    let timeOutId = null;
 
-    return () => intervalCallbackId && clearInterval(intervalCallbackId);
+    const updateNow = () => {
+      setNow(new Date());
+      timeOutId = setTimeout(
+        updateNow,
+        moment().endOf('minute').diff(moment()),
+      );
+    };
+
+    updateNow();
+
+    return () => timeOutId && clearTimeout(timeOutId);
   }, [setNow, updateEvery]);
 
   return minutesInDay(now);
