@@ -16,8 +16,10 @@ const Times = ({ times, containerStyle, textStyle, hourLabelContainerStyle, widt
   return (
     <View style={[styles.container, containerStyle, { width }]}>
       {times.map((time) => (
-        <Animated.View key={time} style={[styles.label, lineStyle, hourLabelContainerStyle]}>
-          <Text style={[styles.text, textStyle]}>{time}</Text>
+        <Animated.View key={time} style={[styles.label, lineStyle]}>
+          <View style={[hourLabelContainerStyle]}>
+            <Text style={[styles.text, textStyle]}>{time}</Text>
+          </View>
         </Animated.View>
       ))}
     </View>
