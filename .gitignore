@@ -10,6 +10,7 @@ android/app/build
 
 # IDE
 .vscode
+.idea
 
 # Performance profiles
 traces/

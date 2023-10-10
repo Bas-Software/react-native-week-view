@@ -8,7 +8,7 @@ import Animated, {
 import styles from './Times.styles';
 import { useVerticalDimensionContext } from '../utils/VerticalDimContext';
 
-const Times = ({ times, containerStyle, textStyle, width }) => {
+const Times = ({ times, containerStyle, textStyle, hourLabelContainerStyle, width }) => {
   const { timeLabelHeight } = useVerticalDimensionContext();
   const lineStyle = useAnimatedStyle(() => ({
     height: withTiming(timeLabelHeight.value),
@@ -16,7 +16,7 @@ const Times = ({ times, containerStyle, textStyle, width }) => {
   return (
     <View style={[styles.container, containerStyle, { width }]}>
       {times.map((time) => (
-        <Animated.View key={time} style={[styles.label, lineStyle]}>
+        <Animated.View key={time} style={[styles.label, lineStyle, hourLabelContainerStyle]}>
           <Text style={[styles.text, textStyle]}>{time}</Text>
         </Animated.View>
       ))}
