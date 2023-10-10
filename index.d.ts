@@ -44,7 +44,6 @@ export interface PageStartAtOptions {
   weekday?: number;
 }
 
-
 export interface WeekViewProps {
   ref: React.MutableRefObject;
   events: WeekViewEvent[];
@@ -223,6 +222,8 @@ export interface WeekViewProps {
 
   showNowLine?: boolean;
   showNowTime?: boolean;
+  lineHeight?: number;
+  circleSize?: number;
   nowLineColor?: string;
   fixedHorizontally?: boolean;
   isRefreshing?: boolean;
@@ -241,8 +242,10 @@ export interface WeekViewProps {
   hourLabelContainerStyle?: StyleProp<ViewStyle>;
   eventContainerStyle?: StyleProp<ViewStyle>;
   eventTextStyle?: StyleProp<TextStyle>;
-  nowLineStyle?: StyleProp<ViewStyle>
-  nowCircleStyle?: StyleProp<ViewStyle>
+  nowLineStyle?: StyleProp<ViewStyle>;
+  nowCircleStyle?: StyleProp<ViewStyle>;
+  nowTimeLabelStyle?: StyleProp<TextStyle>;
+  nowTimeLabelContainerStyle?: StyleProp<ViewStyle>;
 
   // Grid lines props
   gridRowStyle?: StyleProp<ViewStyle>;

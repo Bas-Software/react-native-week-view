@@ -525,6 +525,10 @@ export default class WeekView extends Component {
       onTimeScrolled,
       nowLineStyle,
       nowCircleStyle,
+      circleSize,
+      lineHeight,
+      nowTimeLabelStyle,
+      nowTimeLabelContainerStyle,
     } = this.props;
     const {
       currentMoment,
@@ -637,11 +641,13 @@ export default class WeekView extends Component {
                   hourLabelContainerStyle={hourLabelContainerStyle}
                   textStyle={hourTextStyle}
                   width={timeLabelsWidth}
-                  showNowTime={showNowTime}
-                  formatTimeLabel={formatTimeLabel}
                   beginAgendaAt={beginAgendaAt}
+                  showNowTime={showNowTime}
+                  lineHeight={lineHeight}
                   nowLineStyle={nowLineStyle}
-                  nowLineColor={nowLineColor}
+                  nowTimeLabelStyle={nowTimeLabelStyle}
+                  nowTimeLabelContainerStyle={nowTimeLabelContainerStyle}
+                  formatTimeLabel={formatTimeLabel}
                 />
                 <RunGesturesOnJSContext.Provider value={runOnJS}>
                   <HorizontalSyncFlatList
@@ -692,6 +698,8 @@ export default class WeekView extends Component {
                           editingEventId={editingEvent}
                           editEventConfig={editEventConfig}
                           dragEventConfig={dragEventConfig}
+                          lineHeight={lineHeight}
+                          circleSize={circleSize}
                           nowLineStyle={nowLineStyle}
                           nowCircleStyle={nowCircleStyle}
                         />
@@ -771,6 +779,10 @@ WeekView.propTypes = {
   runOnJS: PropTypes.bool,
   nowLineStyle: PropTypes.object,
   nowCircleStyle: PropTypes.object,
+  lineHeight: PropTypes.number,
+  circleSize: PropTypes.number,
+  nowTimeLabelStyle: PropTypes.object,
+  nowTimeLabelContainerStyle: PropTypes.object,
 };
 
 WeekView.defaultProps = {
@@ -797,4 +809,6 @@ WeekView.defaultProps = {
   disableVirtualization: false,
   showNowTime: false,
   runOnJS: false,
+  lineHeight: 1.5,
+  circleSize: 8,
 };

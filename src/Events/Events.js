@@ -196,6 +196,8 @@ class Events extends PureComponent {
       dragEventConfig,
       nowLineStyle,
       nowCircleStyle,
+      lineHeight,
+      circleSize,
     } = this.props;
     const totalEvents = this.processEvents(
       eventsByDate,
@@ -229,6 +231,8 @@ class Events extends PureComponent {
                   beginAgendaAt={beginAgendaAt}
                   nowLineStyle={nowLineStyle}
                   nowCircleStyle={nowCircleStyle}
+                  lineHeight={lineHeight}
+                  circleSize={circleSize}
                 />
               )}
               {eventsInSection.map((item) => {
@@ -292,6 +296,8 @@ Events.propTypes = {
   editingEventId: PropTypes.number,
   nowLineStyle: PropTypes.object,
   nowCircleStyle: PropTypes.object,
+  lineHeight: PropTypes.number,
+  circleSize: PropTypes.number,
 };
 
 export default Events;

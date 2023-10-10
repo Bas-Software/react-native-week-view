@@ -28,7 +28,15 @@ const useMinutesNow = (updateEvery = UPDATE_EVERY_MILLISECONDS) => {
   return minutesInDay(now);
 };
 
-const NowLine = ({ beginAgendaAt, color, width, nowLineStyle, nowCircleStyle }) => {
+const NowLine = ({
+  beginAgendaAt,
+  color,
+  width,
+  nowLineStyle,
+  nowCircleStyle,
+  lineHeight,
+  circleSize,
+}) => {
   const { verticalResolution } = useVerticalDimensionContext();
   const minutesNow = useMinutesNow();
 
@@ -46,10 +54,11 @@ const NowLine = ({ beginAgendaAt, color, width, nowLineStyle, nowCircleStyle }) 
         styles.container,
         {
           borderColor: color,
+          borderTopWidth: lineHeight,
           width,
         },
         animatedStyle,
-          nowLineStyle
+        nowLineStyle,
       ]}
     >
       <View
@@ -57,8 +66,12 @@ const NowLine = ({ beginAgendaAt, color, width, nowLineStyle, nowCircleStyle }) 
           styles.circle,
           {
             backgroundColor: color,
+            top: -(circleSize + lineHeight) / 2,
+            height: circleSize,
+            width: circleSize,
+            borderRadius: circleSize,
           },
-            nowCircleStyle
+          nowCircleStyle,
         ]}
       />
     </Animated.View>
@@ -71,11 +84,15 @@ NowLine.propTypes = {
   color: PropTypes.string,
   nowLineStyle: PropTypes.object,
   nowCircleStyle: PropTypes.object,
+  lineHeight: PropTypes.number,
+  circleSize: PropTypes.number,
 };
 
 NowLine.defaultProps = {
   color: '#e53935',
   beginAgendaAt: 0,
+  lineHeight: 1.5,
+  circleSize: 8,
 };
 
 export default React.memo(NowLine);

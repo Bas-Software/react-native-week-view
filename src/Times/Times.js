@@ -1,17 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {View, Text} from 'react-native';
+import { View, Text } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   withTiming,
 } from 'react-native-reanimated';
 import styles from './Times.styles';
 import { useVerticalDimensionContext } from '../utils/VerticalDimContext';
-import NowLineTime from "../NowLineTime/NowLineTime";
+import NowLineTime from '../NowLineTime/NowLineTime';
 
-const Times = ({ times, containerStyle, textStyle, hourLabelContainerStyle, width, showNowTime, nowLineColor,
-                 beginAgendaAt,
-                 nowLineStyle,formatTimeLabel }) => {
+const Times = ({
+  times,
+  containerStyle,
+  textStyle,
+  hourLabelContainerStyle,
+  width,
+  showNowTime,
+  nowLineColor,
+  beginAgendaAt,
+  lineHeight,
+  nowLineStyle,
+  nowTimeLabelStyle,
+  nowTimeLabelContainerStyle,
+  formatTimeLabel,
+}) => {
   const { timeLabelHeight } = useVerticalDimensionContext();
   const lineStyle = useAnimatedStyle(() => ({
     height: withTiming(timeLabelHeight.value),
@@ -20,13 +32,16 @@ const Times = ({ times, containerStyle, textStyle, hourLabelContainerStyle, widt
   return (
     <View style={[styles.container, containerStyle, { width }]}>
       {showNowTime && (
-          <NowLineTime
-              color={nowLineColor}
-              width={width}
-              beginAgendaAt={beginAgendaAt}
-              nowLineStyle={nowLineStyle}
-              formatTimeLabel={formatTimeLabel}
-          />
+        <NowLineTime
+          width={width}
+          beginAgendaAt={beginAgendaAt}
+          color={nowLineColor}
+          lineHeight={lineHeight}
+          nowLineStyle={nowLineStyle}
+          nowTimeLabelStyle={nowTimeLabelStyle}
+          nowTimeLabelContainerStyle={nowTimeLabelContainerStyle}
+          formatTimeLabel={formatTimeLabel}
+        />
       )}
       {times.map((time) => (
         <Animated.View key={time} style={[styles.label, lineStyle]}>
@@ -43,6 +58,11 @@ Times.propTypes = {
   times: PropTypes.arrayOf(PropTypes.string).isRequired,
   textStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   width: PropTypes.number.isRequired,
+  lineHeight: PropTypes.number,
+  nowLineStyle: PropTypes.object,
+  nowTimeLabelStyle: PropTypes.object,
+  nowTimeLabelContainerStyle: PropTypes.object,
+  formatTimeLabel: PropTypes.string,
 };
 
 export default React.memo(Times);
