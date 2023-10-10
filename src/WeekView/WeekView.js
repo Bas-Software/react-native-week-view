@@ -638,6 +638,7 @@ export default class WeekView extends Component {
                   textStyle={hourTextStyle}
                   width={timeLabelsWidth}
                   showNowTime={showNowTime}
+                  formatTimeLabel={formatTimeLabel}
                   beginAgendaAt={beginAgendaAt}
                   nowLineStyle={nowLineStyle}
                   nowLineColor={nowLineColor}
