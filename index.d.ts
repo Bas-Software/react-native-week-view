@@ -240,6 +240,8 @@ export interface WeekViewProps {
   hourLabelContainerStyle?: StyleProp<ViewStyle>;
   eventContainerStyle?: StyleProp<ViewStyle>;
   eventTextStyle?: StyleProp<TextStyle>;
+  nowLineStyle?: StyleProp<ViewStyle>
+  nowCircleStyle?: StyleProp<ViewStyle>
 
   // Grid lines props
   gridRowStyle?: StyleProp<ViewStyle>;

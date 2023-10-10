@@ -522,6 +522,8 @@ export default class WeekView extends Component {
       disableVirtualization,
       runOnJS,
       onTimeScrolled,
+      nowLineStyle,
+      nowCircleStyle,
     } = this.props;
     const {
       currentMoment,
@@ -684,6 +686,8 @@ export default class WeekView extends Component {
                           editingEventId={editingEvent}
                           editEventConfig={editEventConfig}
                           dragEventConfig={dragEventConfig}
+                          nowLineStyle={nowLineStyle}
+                          nowCircleStyle={nowCircleStyle}
                         />
                       );
                     }}
@@ -758,6 +762,8 @@ WeekView.propTypes = {
   removeClippedSubviews: PropTypes.bool,
   disableVirtualization: PropTypes.bool,
   runOnJS: PropTypes.bool,
+  nowLineStyle: PropTypes.object,
+  nowCircleStyle: PropTypes.object,
 };
 
 WeekView.defaultProps = {
