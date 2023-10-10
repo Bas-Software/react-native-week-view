@@ -5,9 +5,6 @@ const styles = StyleSheet.create({
     // Matches CONTENT_TOP_PADDING but in Text size
     paddingTop: 10,
   },
-  label: {
-    flex: 1,
-  },
   text: {
     fontSize: 12,
     textAlign: 'center',
