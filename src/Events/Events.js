@@ -290,8 +290,8 @@ Events.propTypes = {
   dayWidth: PropTypes.number.isRequired,
   onEditEvent: PropTypes.func,
   editingEventId: PropTypes.number,
-  nowLineStyle: PropTypes.object
-  nowCircleStyle: PropTypes.object
+  nowLineStyle: PropTypes.object,
+  nowCircleStyle: PropTypes.object,
 };
 
 export default Events;
