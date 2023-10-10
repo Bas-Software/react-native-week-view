@@ -507,6 +507,7 @@ export default class WeekView extends Component {
       rightToLeft,
       fixedHorizontally,
       showNowLine,
+      showNowTime,
       nowLineColor,
       dragEventConfig,
       onDragEvent,
@@ -636,6 +637,10 @@ export default class WeekView extends Component {
                   hourLabelContainerStyle={hourLabelContainerStyle}
                   textStyle={hourTextStyle}
                   width={timeLabelsWidth}
+                  showNowTime={showNowTime}
+                  beginAgendaAt={beginAgendaAt}
+                  nowLineStyle={nowLineStyle}
+                  nowLineColor={nowLineColor}
                 />
                 <RunGesturesOnJSContext.Provider value={runOnJS}>
                   <HorizontalSyncFlatList
@@ -749,6 +754,7 @@ WeekView.propTypes = {
   fixedHorizontally: PropTypes.bool,
   prependMostRecent: PropTypes.bool,
   showNowLine: PropTypes.bool,
+  showNowTime: PropTypes.bool,
   nowLineColor: PropTypes.string,
   onDragEvent: PropTypes.func,
   onMonthPress: PropTypes.func,
@@ -788,5 +794,6 @@ WeekView.defaultProps = {
   updateCellsBatchingPeriod: 50, // RN default
   removeClippedSubviews: true,
   disableVirtualization: false,
+  showNowTime: false,
   runOnJS: false,
 };

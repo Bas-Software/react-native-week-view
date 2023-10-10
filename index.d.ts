@@ -222,6 +222,7 @@ export interface WeekViewProps {
   DayHeaderComponent?: React.ComponentType<HeaderComponentProps>;
 
   showNowLine?: boolean;
+  showNowTime?: boolean;
   nowLineColor?: string;
   fixedHorizontally?: boolean;
   isRefreshing?: boolean;

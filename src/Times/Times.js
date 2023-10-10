@@ -1,20 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {View, Text, Platform} from 'react-native';
+import {View, Text} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   withTiming,
 } from 'react-native-reanimated';
 import styles from './Times.styles';
 import { useVerticalDimensionContext } from '../utils/VerticalDimContext';
+import NowLineTime from "../NowLineTime/NowLineTime";
 
-const Times = ({ times, containerStyle, textStyle, hourLabelContainerStyle, width }) => {
+const Times = ({ times, containerStyle, textStyle, hourLabelContainerStyle, width, showNowTime, nowLineColor,
+                 beginAgendaAt,
+                 nowLineStyle }) => {
   const { timeLabelHeight } = useVerticalDimensionContext();
   const lineStyle = useAnimatedStyle(() => ({
     height: withTiming(timeLabelHeight.value),
   }));
+
   return (
     <View style={[styles.container, containerStyle, { width }]}>
+      {showNowTime && (
+          <NowLineTime
+              color={nowLineColor}
+              width={width}
+              beginAgendaAt={beginAgendaAt}
+              nowLineStyle={nowLineStyle}
+          />
+      )}
       {times.map((time) => (
         <Animated.View key={time} style={[styles.label, lineStyle]}>
           <View style={[hourLabelContainerStyle]}>
