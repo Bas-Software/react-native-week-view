@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   withTiming,
 } from 'react-native-reanimated';
+import moment from 'moment/moment';
 import styles from './Times.styles';
 import { useVerticalDimensionContext } from '../utils/VerticalDimContext';
 import NowLineTime from '../NowLineTime/NowLineTime';
@@ -23,15 +24,20 @@ const Times = ({
   nowTimeLabelStyle,
   nowTimeLabelContainerStyle,
   formatTimeLabel,
+  currentDate,
 }) => {
   const { timeLabelHeight } = useVerticalDimensionContext();
   const lineStyle = useAnimatedStyle(() => ({
     height: withTiming(timeLabelHeight.value),
   }));
 
+  const isToday = useMemo(() => {
+    return moment(currentDate).isSame(moment(), 'day');
+  }, [currentDate]);
+
   return (
     <View style={[styles.container, containerStyle, { width }]}>
-      {showNowTime && (
+      {showNowTime && isToday && (
         <NowLineTime
           width={width}
           beginAgendaAt={beginAgendaAt}
@@ -63,6 +69,7 @@ Times.propTypes = {
   nowTimeLabelStyle: PropTypes.object,
   nowTimeLabelContainerStyle: PropTypes.object,
   formatTimeLabel: PropTypes.string,
+  currentDate: PropTypes.instanceOf(Date).isRequired,
 };
 
 export default React.memo(Times);
