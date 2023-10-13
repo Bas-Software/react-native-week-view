@@ -575,8 +575,6 @@ export default class WeekView extends Component {
           pagingEnabled: true,
         };
 
-    console.log('this.props', this.props);
-
     return (
       <GestureHandlerRootView style={styles.container}>
         <HeaderRefContextProvider>
