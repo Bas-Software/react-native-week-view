@@ -470,11 +470,13 @@ export default class WeekView extends Component {
   render() {
     const {
       showTitle,
+      hideHeaderAndTitle,
       numberOfDays,
       headerStyle,
       headerTextStyle,
       hourTextStyle,
       hourContainerStyle,
+      hourLabelContainerStyle,
       gridRowStyle,
       gridColumnStyle,
       eventContainerStyle,
@@ -505,6 +507,7 @@ export default class WeekView extends Component {
       rightToLeft,
       fixedHorizontally,
       showNowLine,
+      showNowTime,
       nowLineColor,
       dragEventConfig,
       onDragEvent,
@@ -520,6 +523,12 @@ export default class WeekView extends Component {
       disableVirtualization,
       runOnJS,
       onTimeScrolled,
+      nowLineStyle,
+      nowCircleStyle,
+      circleSize,
+      lineHeight,
+      nowTimeLabelStyle,
+      nowTimeLabelContainerStyle,
     } = this.props;
     const {
       currentMoment,
@@ -569,41 +578,43 @@ export default class WeekView extends Component {
     return (
       <GestureHandlerRootView style={styles.container}>
         <HeaderRefContextProvider>
-          <View style={styles.headerAndTitleContainer}>
-            <Title
-              showTitle={showTitle}
-              style={headerStyle}
-              textStyle={headerTextStyle}
-              currentDate={currentMoment}
-              onMonthPress={onMonthPress}
-              width={timeLabelsWidth}
-            />
-            <Header
-              numberOfDays={numberOfDays}
-              currentDate={currentMoment}
-              allDayEvents={allDayEvents}
-              initialDates={initialDates}
-              formatDate={formatDateHeader}
-              style={headerStyle}
-              textStyle={headerTextStyle}
-              eventContainerStyle={allDayEventContainerStyle}
-              EventComponent={AllDayEventComponent}
-              TodayComponent={TodayHeaderComponent}
-              DayComponent={DayHeaderComponent}
-              rightToLeft={rightToLeft}
-              computeMaxVisibleLanes={computeMaxVisibleLanesInHeader}
-              onDayPress={onDayPress}
-              onEventPress={onEventPress}
-              onEventLongPress={onEventLongPress}
-              dayWidth={dayWidth}
-              horizontalInverted={horizontalInverted}
-              getListItemLayout={this.getListItemLayout}
-              windowSize={windowSize}
-              initialNumToRender={initialNumToRender}
-              maxToRenderPerBatch={maxToRenderPerBatch}
-              updateCellsBatchingPeriod={updateCellsBatchingPeriod}
-            />
-          </View>
+          {!hideHeaderAndTitle && (
+            <View style={styles.headerAndTitleContainer}>
+              <Title
+                showTitle={showTitle}
+                style={headerStyle}
+                textStyle={headerTextStyle}
+                currentDate={currentMoment}
+                onMonthPress={onMonthPress}
+                width={timeLabelsWidth}
+              />
+              <Header
+                numberOfDays={numberOfDays}
+                currentDate={currentMoment}
+                allDayEvents={allDayEvents}
+                initialDates={initialDates}
+                formatDate={formatDateHeader}
+                style={headerStyle}
+                textStyle={headerTextStyle}
+                eventContainerStyle={allDayEventContainerStyle}
+                EventComponent={AllDayEventComponent}
+                TodayComponent={TodayHeaderComponent}
+                DayComponent={DayHeaderComponent}
+                rightToLeft={rightToLeft}
+                computeMaxVisibleLanes={computeMaxVisibleLanesInHeader}
+                onDayPress={onDayPress}
+                onEventPress={onEventPress}
+                onEventLongPress={onEventLongPress}
+                dayWidth={dayWidth}
+                horizontalInverted={horizontalInverted}
+                getListItemLayout={this.getListItemLayout}
+                windowSize={windowSize}
+                initialNumToRender={initialNumToRender}
+                maxToRenderPerBatch={maxToRenderPerBatch}
+                updateCellsBatchingPeriod={updateCellsBatchingPeriod}
+              />
+            </View>
+          )}
           {isRefreshing && RefreshComponent && (
             <RefreshComponent
               style={[
@@ -627,8 +638,18 @@ export default class WeekView extends Component {
                 <Times
                   times={times}
                   containerStyle={hourContainerStyle}
+                  hourLabelContainerStyle={hourLabelContainerStyle}
                   textStyle={hourTextStyle}
                   width={timeLabelsWidth}
+                  beginAgendaAt={beginAgendaAt}
+                  showNowTime={showNowTime}
+                  nowLineColor={nowLineColor}
+                  lineHeight={lineHeight}
+                  nowLineStyle={nowLineStyle}
+                  nowTimeLabelStyle={nowTimeLabelStyle}
+                  nowTimeLabelContainerStyle={nowTimeLabelContainerStyle}
+                  formatTimeLabel={formatTimeLabel}
+                  currentDate={currentMoment}
                 />
                 <RunGesturesOnJSContext.Provider value={runOnJS}>
                   <HorizontalSyncFlatList
@@ -679,6 +700,10 @@ export default class WeekView extends Component {
                           editingEventId={editingEvent}
                           editEventConfig={editEventConfig}
                           dragEventConfig={dragEventConfig}
+                          lineHeight={lineHeight}
+                          circleSize={circleSize}
+                          nowLineStyle={nowLineStyle}
+                          nowCircleStyle={nowCircleStyle}
                         />
                       );
                     }}
@@ -715,6 +740,7 @@ WeekView.propTypes = {
   headerTextStyle: PropTypes.object,
   hourTextStyle: PropTypes.object,
   hourContainerStyle: PropTypes.object,
+  hourLabelContainerStyle: PropTypes.object,
   eventContainerStyle: PropTypes.object,
   eventTextStyle: PropTypes.object,
   allDayEventContainerStyle: PropTypes.object,
@@ -734,10 +760,12 @@ WeekView.propTypes = {
   DayHeaderComponent: PropTypes.elementType,
   TodayHeaderComponent: PropTypes.elementType,
   showTitle: PropTypes.bool,
+  hideHeaderAndTitle: PropTypes.bool,
   rightToLeft: PropTypes.bool,
   fixedHorizontally: PropTypes.bool,
   prependMostRecent: PropTypes.bool,
   showNowLine: PropTypes.bool,
+  showNowTime: PropTypes.bool,
   nowLineColor: PropTypes.string,
   onDragEvent: PropTypes.func,
   onMonthPress: PropTypes.func,
@@ -751,6 +779,12 @@ WeekView.propTypes = {
   removeClippedSubviews: PropTypes.bool,
   disableVirtualization: PropTypes.bool,
   runOnJS: PropTypes.bool,
+  nowLineStyle: PropTypes.object,
+  nowCircleStyle: PropTypes.object,
+  lineHeight: PropTypes.number,
+  circleSize: PropTypes.number,
+  nowTimeLabelStyle: PropTypes.object,
+  nowTimeLabelContainerStyle: PropTypes.object,
 };
 
 WeekView.defaultProps = {
@@ -764,6 +798,7 @@ WeekView.defaultProps = {
   formatTimeLabel: 'H:mm',
   startHour: 8,
   showTitle: true,
+  hideHeaderAndTitle: false,
   rightToLeft: false,
   enableVerticalPinch: false,
   prependMostRecent: false,
@@ -774,5 +809,8 @@ WeekView.defaultProps = {
   updateCellsBatchingPeriod: 50, // RN default
   removeClippedSubviews: true,
   disableVirtualization: false,
+  showNowTime: false,
   runOnJS: false,
+  lineHeight: 1.5,
+  circleSize: 8,
 };

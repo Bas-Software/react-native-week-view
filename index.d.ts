@@ -44,7 +44,6 @@ export interface PageStartAtOptions {
   weekday?: number;
 }
 
-
 export interface WeekViewProps {
   ref: React.MutableRefObject;
   events: WeekViewEvent[];
@@ -203,6 +202,11 @@ export interface WeekViewProps {
    */
   showTitle?: boolean;
 
+  /**
+   * When `true`, the header (with the title and the weekdays) will be hidden.
+   */
+  hideHeaderAndTitle?: boolean;
+
   hoursInDisplay?: number;
 
   beginAgendaAt?: number;
@@ -217,6 +221,9 @@ export interface WeekViewProps {
   DayHeaderComponent?: React.ComponentType<HeaderComponentProps>;
 
   showNowLine?: boolean;
+  showNowTime?: boolean;
+  lineHeight?: number;
+  circleSize?: number;
   nowLineColor?: string;
   fixedHorizontally?: boolean;
   isRefreshing?: boolean;
@@ -231,8 +238,14 @@ export interface WeekViewProps {
   headerStyle?: StyleProp<ViewStyle>;
   headerTextStyle?: StyleProp<TextStyle>;
   hourTextStyle?: StyleProp<TextStyle>;
+  hourContainerStyle?: StyleProp<ViewStyle>;
+  hourLabelContainerStyle?: StyleProp<ViewStyle>;
   eventContainerStyle?: StyleProp<ViewStyle>;
   eventTextStyle?: StyleProp<TextStyle>;
+  nowLineStyle?: StyleProp<ViewStyle>;
+  nowCircleStyle?: StyleProp<ViewStyle>;
+  nowTimeLabelStyle?: StyleProp<TextStyle>;
+  nowTimeLabelContainerStyle?: StyleProp<ViewStyle>;
 
   // Grid lines props
   gridRowStyle?: StyleProp<ViewStyle>;

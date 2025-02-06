@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
+import React, { useState, useEffect, useMemo } from 'react';
+import { View, Text } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useDerivedValue,
@@ -7,19 +7,21 @@ import Animated, {
 } from 'react-native-reanimated';
 import PropTypes from 'prop-types';
 
-import { minutesInDayToTop } from '../utils/dimensions';
-import styles from './NowLine.styles';
-import { useVerticalDimensionContext } from '../utils/VerticalDimContext';
+import moment from 'moment';
 import { useMinutesNow } from '../utils/misc';
+import { minutesInDayToTop } from '../utils/dimensions';
+import styles from './NowLineTime.styles';
+import { useVerticalDimensionContext } from '../utils/VerticalDimContext';
 
-const NowLine = ({
+const NowLineTime = ({
   beginAgendaAt,
   color,
   width,
-  nowLineStyle,
-  nowCircleStyle,
   lineHeight,
-  circleSize,
+  nowLineStyle,
+  nowTimeLabelStyle,
+  nowTimeLabelContainerStyle,
+  formatTimeLabel,
 }) => {
   const { verticalResolution } = useVerticalDimensionContext();
   const minutesNow = useMinutesNow();
@@ -31,6 +33,15 @@ const NowLine = ({
   const animatedStyle = useAnimatedStyle(() => ({
     top: withTiming(currentTop.value),
   }));
+
+  const formattedTime = useMemo(
+    () =>
+      moment()
+        .startOf('day')
+        .add(minutesNow, 'minutes')
+        .format(formatTimeLabel),
+    [minutesNow, formatTimeLabel],
+  );
 
   return (
     <Animated.View
@@ -47,36 +58,37 @@ const NowLine = ({
     >
       <View
         style={[
-          styles.circle,
+          styles.timeLabelContainer,
           {
             backgroundColor: color,
-            top: -(circleSize + lineHeight) / 2,
-            height: circleSize,
-            width: circleSize,
-            borderRadius: circleSize,
           },
-          nowCircleStyle,
+          nowTimeLabelContainerStyle,
         ]}
-      />
+      >
+        <Text style={[styles.timeLabel, nowTimeLabelStyle]}>
+          {formattedTime}
+        </Text>
+      </View>
     </Animated.View>
   );
 };
 
-NowLine.propTypes = {
+NowLineTime.propTypes = {
   width: PropTypes.number.isRequired,
   beginAgendaAt: PropTypes.number,
   color: PropTypes.string,
-  nowLineStyle: PropTypes.object,
-  nowCircleStyle: PropTypes.object,
   lineHeight: PropTypes.number,
-  circleSize: PropTypes.number,
+  nowLineStyle: PropTypes.object,
+  nowTimeLabelStyle: PropTypes.object,
+  nowTimeLabelContainerStyle: PropTypes.object,
+  formatTimeLabel: PropTypes.string,
 };
 
-NowLine.defaultProps = {
+NowLineTime.defaultProps = {
   color: '#e53935',
   beginAgendaAt: 0,
   lineHeight: 1.5,
-  circleSize: 8,
+  formatTimeLabel: 'H:mm',
 };
 
-export default React.memo(NowLine);
+export default React.memo(NowLineTime);
